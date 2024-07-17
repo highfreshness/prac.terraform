@@ -1,0 +1,18 @@
+locals {
+    common_tags = {
+        Service = local.service_name
+        Owner = local.owner
+    }
+}
+
+locals {
+    service_name = "forum"
+    owner = "Community Team"
+}
+
+resource "aws_instance" "example" {
+    ami = "ami-04ea5b2d3c8ceccf8"
+    instance_type = "t2.micro"
+    
+    tags = local.common_tags
+}

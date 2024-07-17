@@ -1,0 +1,19 @@
+resource "aws_instance" "my_instance"{
+    ami = "ami-04ea5b2d3c8ceccf8"
+    instance_type = "t2.micro"
+    vpc_security_group_ids = [aws_security_group.my_sg_web.id]
+
+    user_data = file("./web_deploy.sh")
+
+    tags = {
+        Name = "webserver"
+    }
+
+    provisioner "local-exec" {
+        command = "echo The server IP address is ${self.private_ip}"
+    }
+}
+
+output "public_ip" {
+    value = aws_instance.my_instance.public_ip
+}
